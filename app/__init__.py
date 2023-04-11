@@ -8,6 +8,8 @@ db_file = os.path.abspath(os.getcwd())+"/project.db"
 app = Flask(__name__)
 app.config.from_pyfile('settings.py')
 
+app.config['MEDIA_FOLDER'] = os.path.join(app.root_path, 'media')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+db_file
 db = SQLAlchemy(app)
 
