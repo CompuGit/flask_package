@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+<div  class="w3-center">
+    <img src="{{url_for('favicon')}}"  style="width:100px; height:100px;">
+</div>
+<div style="max-width:400px; margin:10px auto;">
+      
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="w3-alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="w3-card w3-green w3-center w3-padding-16 w3-xlarge w3-round-xlarge">
+      LOGIN</div>
+    <form method="post" action="{{ url_for('login') }}"></form>
+        <div class="w3-container w3-padding-16 w3-white w3-card w3-round-xlarge">
+        
+            {{ form.csrf_token }}
+            <p>
+            {{ form.username_or_email.label(class='w3-opacity') }}
+            {{ form.username_or_email(class='w3-input') }}
+            </p>
+            <p>
+            {{ form.password.label(class='w3-opacity') }}
+            {{ form.password(class='w3-input') }}
+            </p>
+            <p>
+            {{ form.remember_me.label(class='w3-opacity') }}
+            {{ form.remember_me }}
+            </p>
+        </div>
+        <div class="container">
+            {{ form.submit(class_='w3-blue w3-btn w3-block w3-round-xlarge') }}
+        </div>
+    </form>
+</div>
+{% endblock %}

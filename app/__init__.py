@@ -1,29 +1,42 @@
-from flask import Flask, request, make_response, session, url_for, jsonify, render_template, send_from_directory
+from flask import (
+    Flask, request, make_response, 
+    session, url_for, jsonify, 
+    render_template, send_from_directory, 
+    redirect, flash)
+
 from flask_sqlalchemy import SQLAlchemy
-import os
- 
-db_file = os.path.abspath(os.getcwd())+"/project.db"
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 
 
+#creating app in the project
 app = Flask(__name__)
+
+
+#app configurations
 app.config.from_pyfile('settings.py')
 
-app.config['MEDIA_FOLDER'] = os.path.join(app.root_path, 'media')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+db_file
+#configuring database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 db = SQLAlchemy(app)
+app.app_context().push()
+
+#creating login manager
+login_manager = LoginManager(app)
+login_manager.login_view='login'
 
 
+#creating an api_key endpoint
 @app.route('/api_key')
 def api_key():
       return f'API_KEY = { app.config.get("API_KEY") }'
 
-@app.route('/media/<path:filename>')
-def media(filename):
-    return send_from_directory(
-        app.config['MEDIA_FOLDER'],
-        filename,
-        as_attachment=True
-    )
+
+#default 404 handler
+@app.errorhandler(404) 
+def invalid_route(e): 
+    return render_template('404.html'), 404
+
 
 from app import routes
+from app import auth

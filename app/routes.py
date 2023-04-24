@@ -1,14 +1,11 @@
 from app import *
-from app.models import *
 
-@app.route('/api_key')
-def api_key():
-      return f'API_KEY = { app.config.get("API_KEY") }'
 
 @app.route('/')
+@login_required
 def index():
 	return render_template('index.html')
 
-@app.errorhandler(404) 
-def invalid_route(e): 
-    return jsonify({'errorCode' : 404, 'message' : 'Route not found'})
+@app.route('/favicon')
+def favicon():
+	return send_from_directory(app.static_folder, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
