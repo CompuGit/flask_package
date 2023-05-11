@@ -1,4 +1,6 @@
 from app import *
+from .forms import *
+from .models import *
 
 
 @app.route('/')
