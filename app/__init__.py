@@ -1,12 +1,12 @@
 from flask import (
     Flask, request, make_response, 
-    session, url_for, jsonify, 
+    session, url_for, jsonify, render_template_string,
     render_template, send_from_directory, 
     redirect, flash)
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-
+from flaskext.markdown import Markdown
 
 #creating app in the project
 app = Flask(__name__)
@@ -37,6 +37,10 @@ def api_key():
 def invalid_route(e): 
     return render_template('404.html'), 404
 
+from flask_admin import Admin
+admin = Admin(app, template_mode='bootstrap3')
 
 from app import routes
 from app import auth
+
+Markdown(app)

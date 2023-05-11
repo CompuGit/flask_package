@@ -1,7 +1,9 @@
 from app import *
-from .forms import *
-from .models import *
+from app.forms import *
+from app.models import *
+from app.views import *
 
+admin.add_view(UserView(User, db.session))
 
 @app.route('/')
 @login_required
